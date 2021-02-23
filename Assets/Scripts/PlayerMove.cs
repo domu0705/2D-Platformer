@@ -50,7 +50,7 @@ public class PlayerMove : MonoBehaviour
     {
         //move by key control
         float h = Input.GetAxisRaw("Horizontal");
-        rigid.AddForce(Vector2.right * h, ForceMode2D.Impulse);
+        rigid.AddForce(Vector2.right * h*2, ForceMode2D.Impulse);
 
         if (rigid.velocity.x > maxSpeed)//right max speed
             rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
