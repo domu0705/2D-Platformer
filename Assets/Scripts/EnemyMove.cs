@@ -9,7 +9,7 @@ public class EnemyMove : MonoBehaviour
     public int nextMove;
     Animator anim;
     SpriteRenderer spriteRenderer;
-
+    CapsuleCollider2D capsuleCollider;
 
     // Start is called before the first frame update
     void Awake()
@@ -17,6 +17,8 @@ public class EnemyMove : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
+
         //move
         Think();
     }
@@ -67,5 +69,22 @@ public class EnemyMove : MonoBehaviour
         //Think함수의 5초 간격을 맞춰주기 위해 원래 진행되던 invoke를 취소하고 다시 5초 시작. 
         CancelInvoke();
         Invoke("Think", 5);
+    }
+
+    public void OnDamaged()
+    {
+        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        spriteRenderer.flipY = true;
+        capsuleCollider.enabled = false;
+
+        //죽는 모션
+        rigid.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
+        //적 없애기
+        Invoke("DeActive", 5);
+    }
+
+    void DeActive()
+    {
+        gameObject.SetActive(false);
     }
 }
